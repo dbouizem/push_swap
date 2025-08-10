@@ -1,0 +1,17 @@
+# Fichiers compilés et librairies
+*.o
+libftprintf.a
+push_swap
+
+# Dossier de configuration VSCode
+.vscode/
+
+# Fichiers temporaires
+*~
+*.swp
+
+# macOS
+.DS_Store
+
+# Autres IDEs (optionnel)
+.idea/
