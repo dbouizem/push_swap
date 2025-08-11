@@ -5,6 +5,7 @@ push_swap
 
 # Dossier de configuration VSCode
 .vscode/
+/push_swap_tester
 
 # Fichiers temporaires
 *~

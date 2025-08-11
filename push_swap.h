@@ -6,7 +6,7 @@
 /*   By: dbouizem <djihane.bouizem@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 04:01:41 by dbouizem          #+#    #+#             */
-/*   Updated: 2025/08/10 18:51:51 by dbouizem         ###   ########.fr       */
+/*   Updated: 2025/08/11 01:04:29 by dbouizem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,17 @@ void	rr(t_node **a, t_node **b);
 void	rra(t_node **a);
 void	rrb(t_node **b);
 void	rrr(t_node **a, t_node **b);
+
+// ======= Sort ========
+
+void	sort_stack(t_node **a, t_node **b);
+
+// utils
+int		is_sorted(t_node *a);
+
+int		find_min_position(t_node *stack);
+void	rotate_to_top(t_node **stack, int position);
+void	push_min_to_b(t_node **a, t_node **b);
+
 
 #endif
