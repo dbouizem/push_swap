@@ -1,0 +1,65 @@
+ Radix → “filet de sécurité”
+ On trie bit par bit, du bit le moins significatif (LSB) au bit le plus significatif (MSB).
+ ---------------------------------------------
+
+Valeurs initiales :  42, 5, 100, -3
+Valeurs triées    : -3 , 5, 42 , 100
+Index attribués   :  0 , 1, 2  , 3
+
+
+A: 2 1 3 0      B:-
+
+Max = 3 → binaire 11 → 2 bits suffisent
+
+Itération 1 : bit 0 (LSB)
+
+   2   1   3   0  index
+   10  01  11  00 binaire index
+   0   1   1   0  bit 0
+   1   0   1   0  bit 1
+
+A: 2 1 3 0      B:-
+2 => 10 => bit 0 = 0
+pb
+A: 1 3 0      B: 2
+1 => 01 => bit 0 = 1
+ra
+A: 3 0 1     B: 2
+3 => 11 => bit 0 = 1
+ra
+A: 0 1 3     B: 2
+0 => 00 => bit 0 = 0
+pb
+A: 1 3      B: 0 2
+
+Rapatriement B => A
+A: 1 3      B: 0 2
+pa
+A: 0 1 3      B: 2
+pa
+A: 2 0 1 3      B:
+
+
+Itération 2 : bit 1 (MSB) 0 => pb   1 => ra
+A: 2 0 1 3      B:
+2 => 10 => bit 1 = 1
+ra
+A: 0 1 3 2     B:
+0 => 00 => bit 1 = 0
+pb
+A: 1 3 2     B: 0
+1 => 01 => bit 1 = 0
+pb
+A: 3 2      B: 1 0
+3 => 11 => bit 1 = 1
+ra
+A: 2 3      B: 1 0
+
+Rapatriement B => A
+A: 2 3      B: 1 0
+pa
+A: 1 2 3      B: 0
+pa
+A: 0 1 2 3      B:
+
+

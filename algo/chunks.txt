@@ -1,0 +1,199 @@
+Chunks + Insertion Sort (chunked insertion) => (n ≤ 100 )
+----------------------------------------------------------------------
+
+
+TEST
+
+
+42 5 17 3 9 21 1 13
+
+1 3 5 9 13 17 21 42
+0 1 2 3 4  5  6  7
+
+index array 7 2 5 1      3 6 0 4  n = 8 k = 2
+
+Phase 1 — Pousser le chunk1 [0..3] de A vers B
+
+chunk1 = {0 1 2 3}
+chunk1 = [0..3] milieu du chunk1 (0 + 3) / 2 = 1
+
+A ; 7 2 5 1  3 6 0 4   b; -
+7 pas dans {0 1 2 3}
+ra
+A ; 2 5 1  3 6 0 4 7
+2 dans {0 1 2 3}
+pb
+A: 5 1 3 6 0 4 7      B: 2     X(2 <= 1)
+5 pas dans {0 1 2 3}
+ra
+A: 1 3 6 0 4 7 5     B: 2
+1 dans {0 1 2 3}
+pb
+A: 3 6 0 4 7 5     B: 1 2  => (1 <= 1) donc on fait [rb] => B: 2 1
+A: 3 6 0 4 7 5     B: 2 1 // gros en haut, petits en bas
+3 dans {0 1 2 3}
+pb
+A: 6 0 4 7 5     B: 3 2 1 =>     X(3 <= 1)
+6 pas dans {0 1 2 3}
+ra
+A: 0 4 7 5 6    B: 3 2 1
+3 dans {0 1 2 3}
+pb
+A: 4 7 5 6    B: 0 3 2 1 => (0 <= 1) donc on fait [rb] => B: 3 2 1 0
+A: 4 7 5 6    B: 3 2 1 0
+chunk1 terminé
+
+
+Phase 2 — Pousser le chunk2 [4..7] de A vers B
+
+chunck2 = {4 5 6 7}
+chunk2 = [4..7] milieu du chunk2 (4 + 7) / 2 = 5
+
+A: 4 7 5 6    B: 3 2 1 0
+4 dans {4 5 6 7}
+pb
+A: 7 5 6    B: 4 3 2 1 0 => (4 <= 5) donc on fait [rb] => B: 3 2 1 0 4
+A: 7 5 6    B: 3 2 1 0 4
+7 dans {4 5 6 7}
+pb
+A: 5 6    B: 7 3 2 1 0 4 => X(7 <= 5)
+5 dans {4 5 6 7}
+pb
+A: 6    B: 5 7 3 2 1 0 4 => (5 <= 5) donc on fait [rb] => B: 7 3 2 1 0 4 5
+A: 6    B: 7 3 2 1 0 4 5
+6 dans {4 5 6 7}
+pb
+A:     B: 6 7 3 2 1 0 4 5 => X(6 <= 5)
+Toute A est dans B
+
+
+Phase 3 — Remonter de B vers A (du max vers le haut)
+Idée : à chaque tour, on amène le max(B) en haut (avec rb ou rrb), puis pa.
+
+Max = 7, position 1/8 ⇒ rb une fois, puis pa
+B: 6 7 3 2 1 0 4 5
+rb
+B: 7 3 2 1 0 4 5 6
+pa
+A: 7       B: 3 2 1 0 4 5 6
+
+Max = 6, position 6/7 ⇒ rrb une fois, puis pa
+A: 7       B: 3 2 1 0 4 5 6
+			rrb
+A: 7       B: 6 3 2 1 0 4 5
+pa
+A: 6 7       B: 3 2 1 0 4 5
+
+Max = 5 (pos 5/6) ⇒ rrb (1 coup), pa
+A: 6 7       B: 3 2 1 0 4 5
+			rrb
+A: 6 7       B: 5 3 2 1 0 4
+pa
+A: 5 6 7       B: 3 2 1 0 4
+
+Max = 4 (pos 4/5) ⇒ rrb (1 coup), pa
+A: 5 6 7       B: 3 2 1 0 4
+				rrb
+A: 5 6 7       B: 4 3 2 1 0
+pa
+A: 4 5 6 7       B: 3 2 1 0
+
+Max = 3 (déjà en haut) ⇒ pa
+A: 4 5 6 7       B: 3 2 1 0
+pa
+A: 3 4 5 6 7       B: 2 1 0
+
+Max = 2 ⇒ pa
+A: 2 3 4 5 6 7       B:  1 0
+
+Max = 1 ⇒ pa
+A: 1 2 3 4 5 6 7       B:  0
+
+Max = 0 ⇒ pa
+A: 0 1 2 3 4 5 6 7   (trié)    B:  -
+
+---------------------------------------
+
+Ce que ça fait (idée bring_to_top_a)
+On suppose que pos est l’index 0-based de l’élément visé (0 = top, 1 = 2ᵉ, …).
+
+Deux chemins possibles pour l’amener en haut :
+
+par le haut : coût = pos rotations ra
+
+par le bas : coût = size - pos rotations rra
+
+On choisit le moins cher :
+
+si pos <= size/2 → ra
+
+sinon → rra (et on en fait size - pos)
+
+C’est l’équivalent de : minimiser min(pos, size - pos).
+
+Exemples rapides
+Pile normalisée (haut → bas) :
+A = [7, 2, 5, 1, 3, 6, 0, 4] → size = 8
+
+pos = 1 (l’élément 2)
+
+pos <= size/2 ? 1 <= 4 → oui → 1 × ra
+
+Après ra : A = [2, 5, 1, 3, 6, 0, 4, 7]
+(objectif atteint : 2 est en haut)
+
+pos = 6 (l’élément 0)
+
+pos <= size/2 ? 6 <= 4 → non → par le bas
+
+reverse_rotations = size - pos = 8 - 6 = 2 → 2 × rra
+
+1er rra : A = [4, 7, 2, 5, 1, 3, 6, 0]
+
+2ᵉ rra : A = [0, 4, 7, 2, 5, 1, 3, 6]
+(0 est en haut)
+
+pos = 4 (pile au milieu)
+
+size/2 = 4. Ici pos == size/2, ta fonction choisit ra 4 fois.
+rra 4 fois donnerait le même coût — c’est un match nul, le choix importe peu.
+
+---------------------------------------------------------------------------------
+
+push_chunk_a_to_b
+
+Supposons que les valeurs d’A sont déjà compressées en rangs (0 = plus petit).
+A (haut→bas) = [7, 2, 5, 1, 3, 6, 0, 4], chunk = [low..high] = [0..3] ⇒ mid = (0+3)/2 = 1.
+B démarre vide.
+
+pos_first_in_range(A) → premier ∈[0..3] depuis le haut = 2 à l’index 1
+bring_to_top_a(pos=1) → ra 1 fois
+A: [2, 5, 1, 3, 6, 0, 4, 7]
+pb → B: [2], A: [5, 1, 3, 6, 0, 4, 7]
+2 <= mid(1) ? non → pas de rb
+
+pos_first_in_range(A) → 1 à l’index 1
+bring_to_top_a(1) → ra
+A: [1, 3, 6, 0, 4, 7, 5]
+pb → B: [1, 2]
+1 <= 1 ? oui → rb → B: [2, 1] (le petit 1 descend)
+
+pos_first_in_range(A) → 3 à l’index 0
+bring_to_top_a(0) → (rien)
+pb → B: [3, 2, 1]
+3 <= 1 ? non → pas de rb
+
+pos_first_in_range(A) → 0 à l’index 1
+bring_to_top_a(1) → ra
+A: [0, 4, 7, 5, 6]
+pb → B: [0, 3, 2, 1]
+0 <= 1 ? oui → rb → B: [3, 2, 1, 0]
+
+pos_first_in_range(A) → -1 (plus rien dans [0..3]) → fin.
+
+B a maintenant les gros du chunk vers le haut (3,2) et les petits en bas (1,0).
+Ça prépare bien la phase B→A (remonter le max d’abord).
+
+Pourquoi la règle “≤ mid ⇒ rb” ?
+Parce que pb est LIFO (ce que tu viens de pousser reste au sommet de B).
+Si c’est un petit du chunk, on veut l’éloigner du sommet pour ne pas gêner la remontée (où on veut sortir les plus gros d’abord). rb fait remonter la pile : le top passe en bas, donc le petit descend.
