@@ -6,7 +6,7 @@
 #    By: dbouizem <djihane.bouizem@gmail.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/07 21:31:39 by dbouizem          #+#    #+#              #
-#    Updated: 2025/08/10 23:04:44 by dbouizem         ###   ########.fr        #
+#    Updated: 2025/08/13 07:45:52 by dbouizem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,16 @@ SRCS	= push_swap.c \
 		  utils/ft_atol.c \
 		  utils/stack_utils.c \
 		  utils/operations_utils.c \
-		  utils/sort_utils.c \
-		  operations_1.c \
-		  operations_2.c \
-		  sort.c \
+		  utils/small_sort_utils.c \
+		  utils/chunks_sort_utils.c \
+		  operations/swap.c \
+		  operations/push.c \
+		  operations/rotate.c \
+		  operations/reverse_rotate.c \
+		  sort/small_sort.c \
+		  sort/chunks_sort.c \
+		  sort/stack_sort.c \
+
 
 OBJDIR	= obj
 OBJS	= $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

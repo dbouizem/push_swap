@@ -6,7 +6,7 @@
 /*   By: dbouizem <djihane.bouizem@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 22:48:13 by dbouizem          #+#    #+#             */
-/*   Updated: 2025/08/11 01:05:57 by dbouizem         ###   ########.fr       */
+/*   Updated: 2025/08/13 03:01:45 by dbouizem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	is_sorted(t_node *a)
 
 // sort_four_five
 
-/* Trouve la position du plus petit élément */
 int	find_min_position(t_node *stack)
 {
 	int		min_pos;
@@ -51,7 +50,6 @@ int	find_min_position(t_node *stack)
 	return (min_pos);
 }
 
-/* Amène l'élément à la position donnée au sommet */
 void	rotate_to_top(t_node **stack, int position)
 {
 	int	size;

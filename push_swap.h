@@ -6,7 +6,7 @@
 /*   By: dbouizem <djihane.bouizem@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 04:01:41 by dbouizem          #+#    #+#             */
-/*   Updated: 2025/08/11 01:04:29 by dbouizem         ###   ########.fr       */
+/*   Updated: 2025/08/13 07:27:32 by dbouizem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@
 typedef struct s_node
 {
 	int				value;
+	int				index;
 	struct s_node	*next;
 }	t_node;
-
-
 
 // Parsing
 t_node	*parse_args(int ac, char **av);
@@ -76,12 +75,28 @@ void	rrr(t_node **a, t_node **b);
 
 void	sort_stack(t_node **a, t_node **b);
 
+void	sort_two(t_node **a);
+void	sort_three(t_node **a);
+void	sort_four_five(t_node **a, t_node **b);
+
+void	sort_chunks(t_node **a, t_node **b);
+
+
 // utils
 int		is_sorted(t_node *a);
 
 int		find_min_position(t_node *stack);
 void	rotate_to_top(t_node **stack, int position);
 void	push_min_to_b(t_node **a, t_node **b);
+
+// chunks_utils
+void	compress_indices(t_node *a);
+
+int		pos_first_in_range(t_node *a, int low, int high);
+void	bring_to_top_a(t_node **a, int pos);
+int		find_max_position(t_node *stack);
+void	push_chunk_a_to_b(t_node **a, t_node **b, int low, int high);
+void	drain_b_to_a(t_node **a, t_node **b);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dbouizem <djihane.bouizem@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:50:40 by dbouizem          #+#    #+#             */
-/*   Updated: 2025/08/10 18:44:50 by dbouizem         ###   ########.fr       */
+/*   Updated: 2025/08/13 02:56:08 by dbouizem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,4 @@ void	rev_rotate(t_node **s, int print)
 	*s = last;
 	if (print)
 		write(1, "rra/rrb?\n", 9);
-}
-
-void	rrr(t_node **a, t_node **b)
-{
-	rev_rotate(a, 0);
-	rev_rotate(b, 0);
-	write(1, "rrr\n", 4);
 }
